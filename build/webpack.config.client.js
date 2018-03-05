@@ -1,37 +1,26 @@
 const path = require('path')
 const webpack = require('webpack')
+const webpackMerge = require('webpack-merge')
 const HTMLPlugin = require('html-webpack-plugin')
+
+const baseConfig = require('./webpack.config.base')
 
 const isDev = process.env.NODE_ENV === "development"
 
-const config = {
+const config = webpackMerge(baseConfig, {
     mode: 'development',
     entry: {
             app: path.join(__dirname, '../client/app.js')
         },
     output: {
         filename: '[name].[hash].js',
-        path: path.join(__dirname, '../dist'),
-        publicPath: '/public/'
-    },
-    module: {
-        rules: [
-            {
-                test: /.jsx?$/,
-                loader: 'babel-loader',
-                exclude: [
-                    path.join(__dirname, '../node_modules')
-                ]
-            },
-
-        ]
     },
     plugins: [
        new HTMLPlugin({
            template: path.join(__dirname, '../client/template.html')
        })
     ]
-}
+})
 
 if(isDev){
     config.entry = { //热更替相关配置
