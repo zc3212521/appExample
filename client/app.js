@@ -16,7 +16,7 @@ const render = (Component,renderMethod="render") =>{
 render(App)
 
 if(module.hot){
-    module.hot.accept('./App.jsx', ()=>{
+    module.hot.accept('./views/App.jsx', ()=>{
         const NextApp = require('./views/App.jsx').default
         render(NextApp, 'hydrate')
     })
