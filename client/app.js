@@ -1,13 +1,21 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { AppContainer } from 'react-hot-loader' //热更替相关
+import {AppContainer} from 'react-hot-loader' //热更替相关
+import {BrowserRouter} from 'react-router-dom'
+import {Provider} from 'mobx-react'
 import App from './views/App.jsx'
 
+import appState from './store/app.state'
+
 const root = document.getElementById('root')
-const render = (Component,renderMethod="render") =>{
+const render = (Component, renderMethod = "render") => {
     ReactDOM[renderMethod](
         <AppContainer>
-            <Component />
+            <Provider appState={appState}>
+                <BrowserRouter>
+                    <Component/>
+                </BrowserRouter>
+            </Provider>
         </AppContainer>,
         root
     );
@@ -15,8 +23,8 @@ const render = (Component,renderMethod="render") =>{
 
 render(App)
 
-if(module.hot){
-    module.hot.accept('./views/App.jsx', ()=>{
+if (module.hot) {
+    module.hot.accept('./views/App.jsx', () => {
         const NextApp = require('./views/App.jsx').default
         render(NextApp, 'hydrate')
     })
